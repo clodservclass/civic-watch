@@ -9,7 +9,7 @@ from fastapi.responses import FileResponse
 from psycopg import connect
 from psycopg.rows import dict_row
 
-app = FastAPI(title="CIVIC WATCH", version="0.6.0", description="Read-only historical records; submissions and evidence uploads disabled.")
+app = FastAPI(title="CIVIC WATCH", version="0.7.0", description="Read-only historical records; submissions and evidence uploads disabled.")
 ROOT = Path(__file__).resolve().parent
 
 def db_url():
@@ -21,7 +21,7 @@ def home():
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "version": "0.6.0"}
+    return {"status": "ok", "version": "0.7.0"}
 
 @app.get("/ready")
 def ready():
@@ -166,3 +166,17 @@ def technology_guides():
     with (ROOT / "technology_guides.json").open(encoding="utf-8") as stream:
         items = json.load(stream)
     return {"items": items, "count": len(items), "mode": "educational"}
+
+@app.get("/rights", include_in_schema=False)
+def rights_page():
+    return FileResponse(ROOT / "rights.html")
+
+@app.get("/api/rights-guides")
+def rights_guides():
+    with (ROOT / "rights_guides.json").open(encoding="utf-8") as stream:
+        items = json.load(stream)
+    return {"items": items, "count": len(items), "mode": "educational"}
+
+@app.get("/coverage", include_in_schema=False)
+def coverage_lab():
+    return FileResponse(ROOT / "coverage.html")
