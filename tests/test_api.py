@@ -4,7 +4,7 @@ from api.main import app
 client = TestClient(app)
 
 def test_health():
-    assert client.get("/health").json()["version"] == "0.6.0"
+    assert client.get("/health").json()["version"] == "0.8.0"
 
 def test_dashboard():
     r = client.get("/")
@@ -66,3 +66,52 @@ def test_technology_guides():
 
 def test_registry_links_to_technology_guides():
     assert 'href="/technology"' in client.get("/surveillance/registry").text
+
+def test_civil_liberties_guides():
+    page = client.get("/rights")
+    assert page.status_code == 200
+    assert "Know your rights" in page.text
+    data = client.get("/api/rights-guides").json()
+    assert data["mode"] == "educational"
+    assert data["count"] >= 6
+    assert all(item["sources"] for item in data["items"])
+
+def test_coverage_is_simulation_only():
+    page = client.get("/coverage")
+    assert page.status_code == 200
+    assert "FICTIONAL COVERAGE DEMONSTRATION" in page.text
+    assert "no basemap" in page.text
+    assert "real-world coordinates" in page.text
+
+def test_registry_links_to_coverage():
+    assert 'href="/coverage"' in client.get("/surveillance/registry").text
+
+def test_public_map_empty_by_default():
+    page = client.get("/map")
+    assert page.status_code == 200
+    assert "Public Information Map" in page.text
+    for layer in ("closures", "incidents", "historical", "surveillance"):
+        assert 'data-layer="' + layer + '"' in page.text
+    response = client.get("/api/map/features")
+    assert response.status_code == 200
+    assert response.json() == {"type": "FeatureCollection", "features": []}
+
+def test_public_map_rejects_unreviewed_data():
+    from api.main import validate_public_map
+    import pytest
+    sample = {"type": "FeatureCollection", "features": [{
+        "type": "Feature", "geometry": {"type": "Point", "coordinates": [-86.78, 36.16]},
+        "properties": {"layer": "surveillance", "data_status": "verified",
+                       "title": "Example", "source_name": "Example",
+                       "source_url": "https://example.org/document",
+                       "reviewed_at": "2025-01-01T00:00:00Z"}
+    }]}
+    with pytest.raises(ValueError):
+        validate_public_map(sample)
+    sample["features"][0]["properties"]["layer"] = "historical"
+    with pytest.raises(ValueError):
+        validate_public_map(sample)
+    sample["features"][0]["properties"]["layer"] = "incidents"
+    sample["features"][0]["properties"]["data_status"] = "draft"
+    with pytest.raises(ValueError):
+        validate_public_map(sample)
