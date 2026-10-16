@@ -8,7 +8,7 @@ from fastapi.responses import FileResponse
 from psycopg import connect
 from psycopg.rows import dict_row
 
-app = FastAPI(title="CIVIC WATCH", version="0.3.0", description="Read-only historical records; submissions and evidence uploads disabled.")
+app = FastAPI(title="CIVIC WATCH", version="0.4.0", description="Read-only historical records; submissions and evidence uploads disabled.")
 ROOT = Path(__file__).resolve().parent
 
 def db_url():
@@ -20,7 +20,7 @@ def home():
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "version": "0.3.0"}
+    return {"status": "ok", "version": "0.4.0"}
 
 @app.get("/ready")
 def ready():
@@ -87,3 +87,11 @@ def demo_incidents():
         {"id": "demo-3", "title": "Example ALPR contract review", "category": "surveillance", "latitude": 36.10, "longitude": -86.75, "status": "DEMO ONLY"},
         {"id": "demo-4", "title": "Example accountability meeting", "category": "police", "latitude": 36.20, "longitude": -86.73, "status": "DEMO ONLY"}
     ]}
+
+@app.get("/mirror", include_in_schema=False)
+def mirror():
+    return FileResponse(ROOT / "mirror.html")
+
+@app.get("/surveillance/registry", include_in_schema=False)
+def surveillance_registry():
+    return FileResponse(ROOT / "registry.html")
