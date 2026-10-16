@@ -1,0 +1,210 @@
+[
+  {
+    "slug": "alpr",
+    "name": "Automated License Plate Readers (ALPR)",
+    "example": "Flock Safety-style roadside camera networks",
+    "overview": "ALPR systems capture images of passing vehicles and use optical character recognition to extract license plate characters. A detection may be associated with a timestamp, camera identifier, vehicle description, and location.",
+    "how": "A camera captures a vehicle image; software locates the plate and interprets its characters; authorized users may search stored detections or receive alerts based on configured watchlists. Capabilities and retention depend on vendor and agency configuration.",
+    "collects": [
+      "Plate text and image",
+      "Observation time and device location",
+      "Vehicle characteristics, where supported",
+      "Search activity and alerts, depending on system"
+    ],
+    "limits": [
+      "Plate recognition can be inaccurate, especially with obscured or unusual plates.",
+      "A detection does not establish who was driving or why a vehicle was present.",
+      "Retention, data-sharing and access vary by agency and contract."
+    ],
+    "privacy": [
+      "Read local policies and request retention, access, sharing and audit documentation.",
+      "For lawful protest travel, consider the privacy implications of travel records and plan using lawful transport choices.",
+      "Do not obstruct, alter, damage, or interfere with cameras or plates."
+    ],
+    "oversight": [
+      "What is the retention period and who can change it?",
+      "Which agencies and vendors can search the data?",
+      "Are searches logged and independently audited?",
+      "What are the correction and challenge procedures?"
+    ],
+    "sources": [
+      {
+        "title": "Flock Safety — official website (vendor descriptions; verify claims independently)",
+        "url": "https://www.flocksafety.com/"
+      },
+      {
+        "title": "EFF — Automated License Plate Readers overview",
+        "url": "https://www.eff.org/pages/automated-license-plate-readers-alpr"
+      }
+    ]
+  },
+  {
+    "slug": "cctv",
+    "name": "CCTV and Video Analytics",
+    "example": "Public-space camera systems",
+    "overview": "Video surveillance systems capture and store footage from fixed or mobile cameras. Analytics can detect objects or events, depending on configuration.",
+    "how": "Cameras send video to recorders or hosted platforms. Authorized operators may view footage and apply search or detection tools.",
+    "collects": [
+      "Video frames and timestamps",
+      "Camera location and field of view",
+      "Potential object/event metadata"
+    ],
+    "limits": [
+      "Video quality and lighting affect reliability.",
+      "An observed person or object may be misidentified.",
+      "A camera's presence does not prove that facial recognition is enabled."
+    ],
+    "privacy": [
+      "Understand posted camera notices and public agency policies.",
+      "Use ordinary device privacy and account security practices.",
+      "Document surveillance concerns from a safe public place without interfering with equipment."
+    ],
+    "oversight": [
+      "Who can view recordings?",
+      "How long are recordings retained?",
+      "Is analytics enabled, and for what purposes?",
+      "What independent audits exist?"
+    ],
+    "sources": [
+      {
+        "title": "NIST — Video surveillance and image analysis research",
+        "url": "https://www.nist.gov/"
+      }
+    ]
+  },
+  {
+    "slug": "facial_recognition",
+    "name": "Facial Recognition",
+    "example": "Face matching and identification systems",
+    "overview": "Facial recognition software compares facial features in images against other images or databases. Its accuracy and deployment rules vary.",
+    "how": "Software detects a face, computes a numerical representation, and compares it against a reference collection; results are similarity scores, not automatic proof of identity.",
+    "collects": [
+      "Facial images or templates",
+      "Match candidates and confidence scores",
+      "Search metadata, depending on deployment"
+    ],
+    "limits": [
+      "False matches can occur.",
+      "Performance varies with image quality and demographics.",
+      "A match should not substitute for independent investigation."
+    ],
+    "privacy": [
+      "Review photo-sharing and account privacy settings.",
+      "Ask agencies whether facial recognition is used and how matches are verified.",
+      "Seek legal support if you believe a false match caused harm."
+    ],
+    "oversight": [
+      "Is independent human review mandatory?",
+      "Which databases are searched?",
+      "How are error rates evaluated?",
+      "What appeal and correction processes exist?"
+    ],
+    "sources": [
+      {
+        "title": "NIST — Face Recognition Technology Evaluation",
+        "url": "https://pages.nist.gov/frvt/"
+      }
+    ]
+  },
+  {
+    "slug": "drones",
+    "name": "Uncrewed Aerial Surveillance",
+    "example": "Public-safety drones",
+    "overview": "Drones can carry visible-light, thermal, or other sensors and may be used to observe areas from the air.",
+    "how": "Operators fly remotely piloted aircraft and receive sensor data. Recording, zoom, and tracking capabilities depend on the aircraft and payload.",
+    "collects": [
+      "Aerial video or still images",
+      "Flight metadata and sensor readings",
+      "Thermal imagery when equipped"
+    ],
+    "limits": [
+      "Flight endurance, weather and visibility constrain coverage.",
+      "Thermal images do not reveal precise identity or intent.",
+      "A drone overhead does not establish that it is recording."
+    ],
+    "privacy": [
+      "Check published agency drone-use policies and flight transparency reports.",
+      "Keep a safe distance and do not interfere with aircraft.",
+      "Record concerns through official complaint or public records channels."
+    ],
+    "oversight": [
+      "Which missions are authorized?",
+      "Is a warrant required for particular uses?",
+      "What imagery is retained and shared?",
+      "Are flights and complaints logged?"
+    ],
+    "sources": [
+      {
+        "title": "FAA — Uncrewed aircraft information",
+        "url": "https://www.faa.gov/uas"
+      }
+    ]
+  },
+  {
+    "slug": "cell_site_simulators",
+    "name": "Cell-Site Simulators",
+    "example": "IMSI-catcher technology",
+    "overview": "Cell-site simulators imitate aspects of cellular infrastructure to obtain certain cellular device identifiers or signaling information, depending on technology and legal authority.",
+    "how": "A simulator interacts with compatible nearby mobile devices at the radio-protocol level. Specific capabilities vary and should not be assumed from a product name.",
+    "collects": [
+      "Potential device identifiers or signaling metadata",
+      "Other data only where supported and authorized"
+    ],
+    "limits": [
+      "Capabilities vary by cellular generation and deployment.",
+      "Presence and operation are not generally publicly verifiable.",
+      "Ordinary phone apps cannot reliably prove or rule out use."
+    ],
+    "privacy": [
+      "Keep devices and operating systems updated.",
+      "Use end-to-end encrypted messaging for sensitive lawful communications; it does not conceal all metadata.",
+      "Consult qualified counsel and digital security organizations for situation-specific advice."
+    ],
+    "oversight": [
+      "What legal process authorizes use?",
+      "What minimization and deletion rules apply?",
+      "Are bystander data and audits documented?",
+      "What disclosures are made to courts?"
+    ],
+    "sources": [
+      {
+        "title": "EFF — Cell-site simulators",
+        "url": "https://www.eff.org/pages/cell-site-simulatorsimsi-catchers"
+      }
+    ]
+  },
+  {
+    "slug": "social_media_monitoring",
+    "name": "Social Media Monitoring",
+    "example": "Public-post analysis platforms",
+    "overview": "Monitoring platforms collect or analyze public online posts and other available information to identify topics, trends, or accounts.",
+    "how": "Software searches public content, extracts entities and patterns, and may link records across platforms. Some tools use automated classification.",
+    "collects": [
+      "Public posts and profile information",
+      "Timestamps, locations or hashtags where shared",
+      "Derived associations and sentiment labels"
+    ],
+    "limits": [
+      "Online identity and intent are often uncertain.",
+      "Automated sentiment and association models can be misleading.",
+      "Private messages are not necessarily accessible to these tools."
+    ],
+    "privacy": [
+      "Review account visibility, location tagging, and application permissions.",
+      "Use strong authentication and separate personal information from public advocacy where appropriate.",
+      "Verify claims before sharing protest-related information."
+    ],
+    "oversight": [
+      "Which platforms and data brokers are used?",
+      "Are political or protected activities monitored?",
+      "What are the retention and deletion policies?",
+      "How are inaccurate classifications challenged?"
+    ],
+    "sources": [
+      {
+        "title": "EFF — Surveillance Self-Defense",
+        "url": "https://ssd.eff.org/"
+      }
+    ]
+  }
+]
