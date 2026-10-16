@@ -1,0 +1,205 @@
+{
+  "version": 1,
+  "cities": [
+    {
+      "id": "nashville-tn",
+      "name": "Nashville",
+      "state": "TN",
+      "center": [
+        -86.7816,
+        36.1627
+      ],
+      "zoom": 10
+    },
+    {
+      "id": "memphis-tn",
+      "name": "Memphis",
+      "state": "TN",
+      "center": [
+        -90.049,
+        35.1495
+      ],
+      "zoom": 10
+    },
+    {
+      "id": "knoxville-tn",
+      "name": "Knoxville",
+      "state": "TN",
+      "center": [
+        -83.9207,
+        35.9606
+      ],
+      "zoom": 10
+    },
+    {
+      "id": "chattanooga-tn",
+      "name": "Chattanooga",
+      "state": "TN",
+      "center": [
+        -85.3097,
+        35.0456
+      ],
+      "zoom": 10
+    },
+    {
+      "id": "atlanta-ga",
+      "name": "Atlanta",
+      "state": "GA",
+      "center": [
+        -84.388,
+        33.749
+      ],
+      "zoom": 10
+    },
+    {
+      "id": "birmingham-al",
+      "name": "Birmingham",
+      "state": "AL",
+      "center": [
+        -86.8025,
+        33.5207
+      ],
+      "zoom": 10
+    },
+    {
+      "id": "new-york-ny",
+      "name": "New York",
+      "state": "NY",
+      "center": [
+        -74.006,
+        40.7128
+      ],
+      "zoom": 10
+    },
+    {
+      "id": "los-angeles-ca",
+      "name": "Los Angeles",
+      "state": "CA",
+      "center": [
+        -118.2437,
+        34.0522
+      ],
+      "zoom": 10
+    },
+    {
+      "id": "chicago-il",
+      "name": "Chicago",
+      "state": "IL",
+      "center": [
+        -87.6298,
+        41.8781
+      ],
+      "zoom": 10
+    },
+    {
+      "id": "houston-tx",
+      "name": "Houston",
+      "state": "TX",
+      "center": [
+        -95.3698,
+        29.7604
+      ],
+      "zoom": 10
+    },
+    {
+      "id": "phoenix-az",
+      "name": "Phoenix",
+      "state": "AZ",
+      "center": [
+        -112.074,
+        33.4484
+      ],
+      "zoom": 10
+    },
+    {
+      "id": "philadelphia-pa",
+      "name": "Philadelphia",
+      "state": "PA",
+      "center": [
+        -75.1652,
+        39.9526
+      ],
+      "zoom": 10
+    },
+    {
+      "id": "san-francisco-ca",
+      "name": "San Francisco",
+      "state": "CA",
+      "center": [
+        -122.4194,
+        37.7749
+      ],
+      "zoom": 11
+    },
+    {
+      "id": "seattle-wa",
+      "name": "Seattle",
+      "state": "WA",
+      "center": [
+        -122.3321,
+        47.6062
+      ],
+      "zoom": 10
+    },
+    {
+      "id": "denver-co",
+      "name": "Denver",
+      "state": "CO",
+      "center": [
+        -104.9903,
+        39.7392
+      ],
+      "zoom": 10
+    },
+    {
+      "id": "washington-dc",
+      "name": "Washington",
+      "state": "DC",
+      "center": [
+        -77.0369,
+        38.9072
+      ],
+      "zoom": 10
+    },
+    {
+      "id": "miami-fl",
+      "name": "Miami",
+      "state": "FL",
+      "center": [
+        -80.1918,
+        25.7617
+      ],
+      "zoom": 10
+    },
+    {
+      "id": "boston-ma",
+      "name": "Boston",
+      "state": "MA",
+      "center": [
+        -71.0589,
+        42.3601
+      ],
+      "zoom": 10
+    },
+    {
+      "id": "dallas-tx",
+      "name": "Dallas",
+      "state": "TX",
+      "center": [
+        -96.797,
+        32.7767
+      ],
+      "zoom": 10
+    },
+    {
+      "id": "detroit-mi",
+      "name": "Detroit",
+      "state": "MI",
+      "center": [
+        -83.0458,
+        42.3314
+      ],
+      "zoom": 10
+    }
+  ]
+}
