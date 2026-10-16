@@ -4,7 +4,7 @@ from api.main import app
 client = TestClient(app)
 
 def test_health():
-    assert client.get("/health").json()["version"] == "0.5.0"
+    assert client.get("/health").json()["version"] == "0.6.0"
 
 def test_dashboard():
     r = client.get("/")
@@ -51,3 +51,18 @@ def test_no_write_routes():
     assert client.post("/incidents", json={}).status_code == 405
     assert client.post("/evidence", json={}).status_code == 404
     assert client.post("/api/surveillance/programs", json={}).status_code == 405
+
+def test_technology_guides():
+    page = client.get("/technology")
+    assert page.status_code == 200
+    assert "Know the technology" in page.text
+    response = client.get("/api/technology-guides")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["mode"] == "educational"
+    assert data["count"] >= 6
+    assert "alpr" in {guide["slug"] for guide in data["items"]}
+    assert all(guide["sources"] for guide in data["items"])
+
+def test_registry_links_to_technology_guides():
+    assert 'href="/technology"' in client.get("/surveillance/registry").text
