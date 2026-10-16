@@ -1,9 +1,10 @@
 from fastapi.testclient import TestClient
 from api.main import app
+
 client = TestClient(app)
 
 def test_health():
-    assert client.get("/health").json()["version"] == "0.4.0"
+    assert client.get("/health").json()["version"] == "0.5.0"
 
 def test_dashboard():
     r = client.get("/")
@@ -16,13 +17,12 @@ def test_mirror():
     assert r.status_code == 200
     assert "SIMULATION" in r.text
     assert "No real cameras" in r.text
-    assert "Reveal first detection" in r.text
 
 def test_registry():
     r = client.get("/surveillance/registry")
     assert r.status_code == 200
-    assert "no verified entries published" in r.text
-    assert "Source links" in r.text
+    assert "Verification-first publication" in r.text
+    assert "/api/surveillance/programs" in r.text
 
 def test_synthetic_separation():
     data = client.get("/demo/incidents").json()
@@ -34,11 +34,20 @@ def test_public_api_unconfigured(monkeypatch):
     monkeypatch.delenv("DATABASE_URL", raising=False)
     assert client.get("/incidents").json()["items"] == []
     assert client.get("/ready").status_code == 503
+    r = client.get("/api/surveillance/programs")
+    assert r.status_code == 200
+    assert r.json()["items"] == []
+    assert client.get("/api/surveillance/programs/00000000-0000-0000-0000-000000000001").status_code == 404
 
 def test_filters_validation():
     assert client.get("/incidents?limit=101").status_code == 422
     assert client.get("/incidents?category=invalid").status_code == 422
+    assert client.get("/api/surveillance/programs?limit=101").status_code == 422
+    assert client.get("/api/surveillance/programs?offset=-1").status_code == 422
+    assert client.get("/api/surveillance/programs?technology=unknown").status_code == 422
+    assert client.get("/api/surveillance/programs/not-a-uuid").status_code == 422
 
 def test_no_write_routes():
     assert client.post("/incidents", json={}).status_code == 405
     assert client.post("/evidence", json={}).status_code == 404
+    assert client.post("/api/surveillance/programs", json={}).status_code == 405

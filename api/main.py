@@ -8,7 +8,7 @@ from fastapi.responses import FileResponse
 from psycopg import connect
 from psycopg.rows import dict_row
 
-app = FastAPI(title="CIVIC WATCH", version="0.4.0", description="Read-only historical records; submissions and evidence uploads disabled.")
+app = FastAPI(title="CIVIC WATCH", version="0.5.0", description="Read-only historical records; submissions and evidence uploads disabled.")
 ROOT = Path(__file__).resolve().parent
 
 def db_url():
@@ -20,7 +20,7 @@ def home():
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "version": "0.4.0"}
+    return {"status": "ok", "version": "0.5.0"}
 
 @app.get("/ready")
 def ready():
@@ -29,8 +29,10 @@ def ready():
         raise HTTPException(status_code=503, detail="database not configured")
     try:
         with connect(url, connect_timeout=5) as conn:
-            conn.execute("SELECT 1 FROM schema_migrations WHERE version = '0001'")
-        return {"status": "ready", "database": "connected", "schema": "0001"}
+            versions = {row[0] for row in conn.execute("SELECT version FROM schema_migrations WHERE version IN ('0001','0002')")}
+            if versions != {'0001', '0002'}:
+                raise ValueError('required migrations missing')
+        return {"status": "ready", "database": "connected", "schema": "0002"}
     except Exception:
         raise HTTPException(status_code=503, detail="database or schema unavailable")
 
@@ -95,3 +97,61 @@ def mirror():
 @app.get("/surveillance/registry", include_in_schema=False)
 def surveillance_registry():
     return FileResponse(ROOT / "registry.html")
+
+# The runtime DB account must only have SELECT permissions on public views.
+# Never query surveillance_programs or surveillance_sources directly in public endpoints.
+@app.get("/api/surveillance/programs")
+def surveillance_programs(
+    q: str | None = Query(None, max_length=120),
+    technology: Literal["alpr", "cctv", "facial_recognition", "drones", "analytics", "other"] | None = None,
+    jurisdiction: str | None = Query(None, max_length=100),
+    limit: int = Query(20, ge=1, le=100),
+    offset: int = Query(0, ge=0, le=10000),
+):
+    if not db_url():
+        return {"items": [], "count": 0, "mode": "read_only", "message": "Database not configured; no verified registry records"}
+    search = "%" + (q or "").strip().replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_") + "%"
+    try:
+        with connect(db_url(), connect_timeout=5, row_factory=dict_row) as conn:
+            rows = conn.execute(
+                """SELECT id::text AS id, agency_name, program_name, technology, jurisdiction,
+                          vendor_name, description, retention_policy, sharing_policy,
+                          contract_amount_usd, published_at, source_count
+                   FROM public_surveillance_programs
+                   WHERE (%s::text IS NULL OR technology = %s)
+                     AND (%s::text IS NULL OR jurisdiction ILIKE ('%%' || %s || '%%'))
+                     AND (%s::text IS NULL OR agency_name ILIKE %s ESCAPE '\\'
+                          OR program_name ILIKE %s ESCAPE '\\'
+                          OR COALESCE(vendor_name,'') ILIKE %s ESCAPE '\\'
+                          OR jurisdiction ILIKE %s ESCAPE '\\')
+                   ORDER BY published_at DESC, id DESC LIMIT %s OFFSET %s""",
+                (technology, technology, jurisdiction, jurisdiction, q, search, search, search, search, limit, offset),
+            ).fetchall()
+        return {"items": rows, "count": len(rows), "mode": "read_only", "limit": limit, "offset": offset}
+    except Exception:
+        raise HTTPException(status_code=503, detail="Surveillance registry database unavailable")
+
+@app.get("/api/surveillance/programs/{program_id}")
+def surveillance_program_detail(program_id: UUID):
+    if not db_url():
+        raise HTTPException(status_code=404, detail="Program not found")
+    try:
+        with connect(db_url(), connect_timeout=5, row_factory=dict_row) as conn:
+            program = conn.execute(
+                """SELECT id::text AS id, agency_name, program_name, technology, jurisdiction,
+                          vendor_name, description, retention_policy, sharing_policy,
+                          contract_amount_usd, published_at, source_count
+                   FROM public_surveillance_programs WHERE id = %s""", (program_id,),
+            ).fetchone()
+            if program is None:
+                raise HTTPException(status_code=404, detail="Program not found")
+            sources = conn.execute(
+                """SELECT source_title, source_url, source_type, document_date
+                   FROM public_surveillance_sources WHERE program_id = %s
+                   ORDER BY document_date DESC NULLS LAST, source_title""", (program_id,),
+            ).fetchall()
+        return {"program": program, "sources": sources}
+    except HTTPException:
+        raise
+    except Exception:
+        raise HTTPException(status_code=503, detail="Surveillance registry database unavailable")
