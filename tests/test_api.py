@@ -4,7 +4,7 @@ from api.main import app
 client = TestClient(app)
 
 def test_health():
-    assert client.get("/health").json()["version"] == "0.6.0"
+    assert client.get("/health").json()["version"] == "0.7.0"
 
 def test_dashboard():
     r = client.get("/")
@@ -66,3 +66,22 @@ def test_technology_guides():
 
 def test_registry_links_to_technology_guides():
     assert 'href="/technology"' in client.get("/surveillance/registry").text
+
+def test_civil_liberties_guides():
+    page = client.get("/rights")
+    assert page.status_code == 200
+    assert "Know your rights" in page.text
+    data = client.get("/api/rights-guides").json()
+    assert data["mode"] == "educational"
+    assert data["count"] >= 6
+    assert all(item["sources"] for item in data["items"])
+
+def test_coverage_is_simulation_only():
+    page = client.get("/coverage")
+    assert page.status_code == 200
+    assert "FICTIONAL COVERAGE DEMONSTRATION" in page.text
+    assert "no basemap" in page.text
+    assert "real-world coordinates" in page.text
+
+def test_registry_links_to_coverage():
+    assert 'href="/coverage"' in client.get("/surveillance/registry").text
