@@ -11,7 +11,7 @@ from fastapi.responses import FileResponse
 from psycopg import connect
 from psycopg.rows import dict_row
 
-app = FastAPI(title="CIVIC WATCH", version="0.8.0", description="Read-only historical records; submissions and evidence uploads disabled.")
+app = FastAPI(title="CIVIC WATCH", version="0.9.0", description="Read-only historical records; submissions and evidence uploads disabled.")
 ROOT = Path(__file__).resolve().parent
 
 def db_url():
@@ -23,7 +23,7 @@ def home():
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "version": "0.8.0"}
+    return {"status": "ok", "version": "0.9.0"}
 
 @app.get("/ready")
 def ready():
@@ -183,6 +183,16 @@ def rights_guides():
 def coverage_lab():
     return FileResponse(ROOT / "coverage.html")
 
+def city_directory():
+    with (ROOT / "cities.json").open(encoding="utf-8") as stream:
+        return json.load(stream)["cities"]
+
+@app.get("/api/cities")
+def cities(q: str = Query("", max_length=100)):
+    needle = q.casefold().strip()
+    items = [c for c in city_directory() if needle in (c["name"] + " " + c["state"] + " " + c["id"]).casefold()]
+    return {"items": items[:100], "count": len(items), "coverage_note": "City listings do not imply data availability"}
+
 MAP_LAYERS = {"closures", "incidents", "historical", "surveillance"}
 
 def validate_public_map(collection):
@@ -198,6 +208,8 @@ def validate_public_map(collection):
         geometry = feature.get("geometry")
         if not isinstance(properties, dict) or not isinstance(geometry, dict):
             raise ValueError("invalid feature data")
+        if properties.get("city_id") not in {c["id"] for c in city_directory()}:
+            raise ValueError("unknown city identifier")
         layer = properties.get("layer")
         if layer not in MAP_LAYERS or properties.get("data_status") != "verified":
             raise ValueError("unverified map record")
@@ -245,10 +257,13 @@ def public_map_page():
     return FileResponse(ROOT / "public_map.html")
 
 @app.get("/api/map/features")
-def public_map_features():
+def public_map_features(city: str = Query("nashville-tn", max_length=100)):
     try:
         with (ROOT / "public_map_records.geojson").open(encoding="utf-8") as stream:
             collection = validate_public_map(json.load(stream))
+        if city not in {c["id"] for c in city_directory()}:
+            raise HTTPException(status_code=404, detail="Unknown city")
+        collection["features"] = [f for f in collection["features"] if f["properties"]["city_id"] == city]
         return collection
     except (OSError, ValueError, TypeError):
         raise HTTPException(status_code=503, detail="Reviewed map dataset unavailable")

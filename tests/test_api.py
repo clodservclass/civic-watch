@@ -4,7 +4,7 @@ from api.main import app
 client = TestClient(app)
 
 def test_health():
-    assert client.get("/health").json()["version"] == "0.8.0"
+    assert client.get("/health").json()["version"] == "0.9.0"
 
 def test_dashboard():
     r = client.get("/")
@@ -115,3 +115,12 @@ def test_public_map_rejects_unreviewed_data():
     sample["features"][0]["properties"]["data_status"] = "draft"
     with pytest.raises(ValueError):
         validate_public_map(sample)
+
+def test_city_directory():
+    data = client.get("/api/cities").json()
+    assert data["count"] >= 20
+    assert any(c["id"] == "nashville-tn" for c in data["items"])
+    assert client.get("/api/cities?q=Atlanta").json()["count"] >= 1
+    assert client.get("/api/map/features?city=atlanta-ga").status_code == 200
+    assert client.get("/api/map/features?city=unknown-city").status_code == 404
+    assert 'id="city-picker"' in client.get("/map").text
