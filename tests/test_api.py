@@ -7,7 +7,7 @@ def test_dashboard():
     r=client.get("/")
     assert r.status_code == 200
     assert "DEMONSTRATION ONLY" in r.text
-    assert "basemaps.cartocdn.com" in r.text
+    assert "tile.openstreetmap.org" in r.text
 def test_demo():
     data=client.get("/demo/incidents").json()
     assert data["mode"] == "synthetic"
