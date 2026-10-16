@@ -1,0 +1,128 @@
+[
+  {
+    "slug": "protest-rights",
+    "title": "Peaceful protest and assembly",
+    "summary": "The First Amendment protects speech and peaceful assembly, but time, place, and manner rules and other applicable laws can affect particular events.",
+    "steps": [
+      "Review local permit rules and official notices before an event.",
+      "Identify public spaces and lawful assembly requirements without assuming all restrictions are valid.",
+      "If approached by officials, remain calm, avoid physical interference, and ask for legal assistance when appropriate.",
+      "Record the time, location, agency, and relevant orders after an incident when safe."
+    ],
+    "cautions": [
+      "Emergency declarations do not automatically suspend constitutional rights.",
+      "Restrictions and enforcement can change; consult current local law and qualified counsel."
+    ],
+    "sources": [
+      {
+        "title": "ACLU — Know Your Rights: Protesters' Rights",
+        "url": "https://www.aclu.org/know-your-rights/protesters-rights"
+      }
+    ]
+  },
+  {
+    "slug": "recording",
+    "title": "Documenting public encounters",
+    "summary": "Recording officials performing public duties in public places may receive constitutional protection, subject to applicable limits and circumstances.",
+    "steps": [
+      "Stay at a safe distance and do not interfere with official duties.",
+      "Preserve original files, timestamps, and context; avoid altering the original evidence.",
+      "Document what happened accurately, including facts that do not support your initial interpretation.",
+      "Consider the privacy of bystanders and vulnerable people before sharing footage."
+    ],
+    "cautions": [
+      "Audio recording and private-property rules vary by state and situation.",
+      "A general right to record does not guarantee access to restricted areas."
+    ],
+    "sources": [
+      {
+        "title": "ACLU — Know Your Rights: Photographers",
+        "url": "https://www.aclu.org/know-your-rights/photographers"
+      }
+    ]
+  },
+  {
+    "slug": "device-security",
+    "title": "Device and account security",
+    "summary": "Basic security practices can reduce accidental exposure of personal information and improve account resilience.",
+    "steps": [
+      "Keep operating systems and apps updated.",
+      "Use a strong device passcode and multifactor authentication for important accounts.",
+      "Review app permissions, location sharing, photo metadata, and cloud backup settings.",
+      "Prepare emergency contact information and consider how you would recover an account or lost device."
+    ],
+    "cautions": [
+      "Encryption does not conceal all communications metadata.",
+      "No device setting guarantees anonymity or protection from lawful legal process."
+    ],
+    "sources": [
+      {
+        "title": "EFF — Surveillance Self-Defense",
+        "url": "https://ssd.eff.org/"
+      }
+    ]
+  },
+  {
+    "slug": "communications",
+    "title": "Private and reliable communications",
+    "summary": "Understand the differences between encrypted content, identifying metadata, public posts, and ordinary phone or SMS communications.",
+    "steps": [
+      "Choose reputable end-to-end encrypted messaging for sensitive lawful discussions.",
+      "Verify contacts and avoid forwarding unconfirmed claims.",
+      "Have an offline communication and meeting plan if cellular service is unavailable.",
+      "Avoid publicly posting identifying details of bystanders without consent."
+    ],
+    "cautions": [
+      "End-to-end encryption does not eliminate all metadata.",
+      "Connectivity and emergency communications can fail during large gatherings."
+    ],
+    "sources": [
+      {
+        "title": "EFF — Surveillance Self-Defense",
+        "url": "https://ssd.eff.org/"
+      }
+    ]
+  },
+  {
+    "slug": "evidence",
+    "title": "Preserving evidence responsibly",
+    "summary": "Accurate, contextual documentation is essential for oversight, public records work, and potential legal proceedings.",
+    "steps": [
+      "Preserve unedited originals and record when and how evidence was obtained.",
+      "Maintain a clear timeline of events and distinguish firsthand observations from secondhand reports.",
+      "Back up files securely and limit access to sensitive personal information.",
+      "Consult counsel or a qualified organization before publishing identifying evidence."
+    ],
+    "cautions": [
+      "Do not publish private addresses, sensitive personal data, or unverified accusations.",
+      "CIVIC WATCH does not currently accept evidence uploads."
+    ],
+    "sources": [
+      {
+        "title": "National Archives — Records management",
+        "url": "https://www.archives.gov/records-mgmt"
+      }
+    ]
+  },
+  {
+    "slug": "emergency-powers",
+    "title": "Emergency powers and legal changes",
+    "summary": "Emergency declarations, curfews, and deployments can alter applicable rules, but their scope depends on the legal authority and facts.",
+    "steps": [
+      "Locate the actual emergency order, effective dates, and jurisdiction.",
+      "Compare official announcements with the text of the order.",
+      "Consult local civil liberties groups or legal counsel about challenges and exceptions.",
+      "Keep dated copies of orders and related public statements for accountability research."
+    ],
+    "cautions": [
+      "Martial law and emergency declarations are not interchangeable terms.",
+      "Do not assume any specific order is valid or invalid without legal analysis."
+    ],
+    "sources": [
+      {
+        "title": "Congressional Research Service — Reports",
+        "url": "https://crsreports.congress.gov/"
+      }
+    ]
+  }
+]
