@@ -1,3 +1,4 @@
+import json
 import os
 from pathlib import Path
 from typing import Literal
@@ -8,7 +9,7 @@ from fastapi.responses import FileResponse
 from psycopg import connect
 from psycopg.rows import dict_row
 
-app = FastAPI(title="CIVIC WATCH", version="0.5.0", description="Read-only historical records; submissions and evidence uploads disabled.")
+app = FastAPI(title="CIVIC WATCH", version="0.6.0", description="Read-only historical records; submissions and evidence uploads disabled.")
 ROOT = Path(__file__).resolve().parent
 
 def db_url():
@@ -20,7 +21,7 @@ def home():
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "version": "0.5.0"}
+    return {"status": "ok", "version": "0.6.0"}
 
 @app.get("/ready")
 def ready():
@@ -155,3 +156,13 @@ def surveillance_program_detail(program_id: UUID):
         raise
     except Exception:
         raise HTTPException(status_code=503, detail="Surveillance registry database unavailable")
+
+@app.get("/technology", include_in_schema=False)
+def technology_guide_page():
+    return FileResponse(ROOT / "technology.html")
+
+@app.get("/api/technology-guides")
+def technology_guides():
+    with (ROOT / "technology_guides.json").open(encoding="utf-8") as stream:
+        items = json.load(stream)
+    return {"items": items, "count": len(items), "mode": "educational"}
